@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gustavo Silva Martins — Currículo / Resume</title>
+    <meta name="description" content="Currículo de Gustavo Silva Martins, Full-Stack Developer — disponível em português e inglês (PDF).">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+    <script>
+        (function () {
+            var saved = localStorage.getItem('theme');
+            if (saved) document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --fg: #1a1a1a;
+            --muted: #595959;
+            --card: #f5f5f5;
+            --border: #e2e2e2;
+            --accent: #1d4ed8;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #14161a;
+                --fg: #eaeaea;
+                --muted: #a7adb4;
+                --card: #1e2127;
+                --border: #2c313a;
+                --accent: #7fb0ff;
+            }
+        }
+        :root[data-theme="dark"] {
+            --bg: #14161a;
+            --fg: #eaeaea;
+            --muted: #a7adb4;
+            --card: #1e2127;
+            --border: #2c313a;
+            --accent: #7fb0ff;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        main { width: 100%; max-width: 560px; }
+        h1 { font-size: 1.9rem; margin: 0 0 0.25rem; }
+        .subtitle { color: var(--muted); margin: 0 0 2rem; }
+        .cards { display: grid; gap: 1rem; }
+        a.card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.1rem 1.3rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-decoration: none;
+            color: inherit;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: border-color .15s ease, transform .15s ease;
+        }
+        a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .card .arrow { color: var(--accent); font-size: 1.3rem; }
+        footer { margin-top: 2rem; color: var(--muted); font-size: 0.85rem; }
+        footer a { color: var(--accent); }
+        .sep { margin: 0 0.4rem; }
+        #theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--fg);
+            font-size: 1.15rem;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color .15s ease, transform .15s ease;
+        }
+        #theme-toggle:hover { border-color: var(--accent); transform: scale(1.08); }
+        a.card:focus-visible,
+        footer a:focus-visible,
+        #theme-toggle:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            a.card, #theme-toggle { transition: none; }
+            a.card:hover, #theme-toggle:hover { transform: none; }
+        }
+    </style>
+</head>
+<body>
+    <button id="theme-toggle" type="button" aria-label="Alternar tema claro/escuro" aria-pressed="false" title="Alternar tema">🌙</button>
+    <main>
+        <h1>Gustavo Silva Martins</h1>
+        <p class="subtitle">Full-Stack Developer — Capivari de Baixo, SC, Brasil</p>
+        <div class="cards">
+            <a class="card" href="pt-br/curriculo.pdf" aria-label="Abrir currículo em português (PDF)">
+                <span><span aria-hidden="true">🇧🇷</span> Currículo (Português)</span>
+                <span class="arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            <a class="card" href="en/resume.pdf" hreflang="en" aria-label="Open resume in English (PDF)">
+                <span><span aria-hidden="true">🇺🇸</span> <span lang="en">Resume (English)</span></span>
+                <span class="arrow" aria-hidden="true">&rarr;</span>
+            </a>
+        </div>
+        <footer>
+            <nav aria-label="Contato">
+                <a href="mailto:gustavosm994@gmail.com">gustavosm994@gmail.com</a>
+                <span class="sep" aria-hidden="true">&bull;</span>
+                <a href="https://linkedin.com/in/gustavo-martins994/">LinkedIn</a>
+                <span class="sep" aria-hidden="true">&bull;</span>
+                <a href="https://github.com/GusMartins499">GitHub</a>
+            </nav>
+        </footer>
+    </main>
+    <script>
+        (function () {
+            var root = document.documentElement;
+            var btn = document.getElementById('theme-toggle');
+            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+            function isDark() {
+                var explicit = root.getAttribute('data-theme');
+                return explicit ? explicit === 'dark' : prefersDark.matches;
+            }
+            function sync() {
+                var dark = isDark();
+                btn.textContent = dark ? '☀️' : '🌙';
+                btn.setAttribute('aria-pressed', String(dark));
+            }
+            sync();
+            btn.addEventListener('click', function () {
+                var next = isDark() ? 'light' : 'dark';
+                root.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+                sync();
+            });
+            prefersDark.addEventListener('change', function () {
+                if (!localStorage.getItem('theme')) sync();
+            });
+        })();
+    </script>
+</body>
+</html>

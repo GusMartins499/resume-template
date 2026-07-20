@@ -3,6 +3,15 @@ name: Build
 on:
   push:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   generate-pdf:
     runs-on: ubuntu-latest
@@ -23,7 +32,7 @@ jobs:
       - name: Build Portuguese Resume
         working-directory: resumes/pt-br
         run: pdflatex curriculo.tex
-      
+
       - name: Upload generated PDFs to GitHub Actions Artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -31,3 +40,33 @@ jobs:
           path: |
             resumes/en/resume.pdf
             resumes/pt-br/curriculo.pdf
+
+      - name: Assemble site
+        run: |
+          mkdir -p site/en site/pt-br
+          cp web/index.html site/index.html
+          cp resumes/en/resume.pdf site/en/resume.pdf
+          cp resumes/pt-br/curriculo.pdf site/pt-br/curriculo.pdf
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: generate-pdf
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
